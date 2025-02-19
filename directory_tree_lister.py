@@ -30,9 +30,9 @@ Web
 PATH = Path(__file__).parent
 OUTPUT_FILENAME = PATH / (Path(__file__).stem + "_output.txt")
 
-SAVE_AS_FILE = False
+SAVE_AS_FILE = True
 IGNORE_LIST = [Path(__file__).name, OUTPUT_FILENAME.name,
-            ".git"]
+            ".git", "__pycache__"]
 
 tree_structure = [PATH.name]
 
