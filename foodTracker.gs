@@ -1,28 +1,25 @@
 const FOOD_SHEET_NAME = "Food & Drink";
-const FOOD_DATABASE_NAME = "Database";
+const FOOD_DATABASE_SHEET_NAME = "Database";
 
-function getFoodSheet() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(FOOD_SHEET_NAME);
+// My spreadsheet has some styling, so define the first cell. (C4)
+const START_CELL_ROW = 4;
+const START_CELL_COL = 3;
+
+const NUM_MEALS = 4;
+const NUM_DAYS = 7;
+
+function getSheet(sheetname) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetname);
 
   if (!sheet) {
-    throw new Error(`Couldn't find sheet (${FOOD_SHEET_NAME})!`);
-  }
-
-  return sheet;
-}
-
-function getDBSheet() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(FOOD_DATABASE_NAME);
-
-  if (!sheet) { 
-    throw new Error(`Couldn't find sheet (${FOOD_DATABASE_NAME})!`);
+    throw new Error(`Couldn't find sheet (${sheetname})!`);
   }
 
   return sheet;
 }
 
 function initDBSheet() {
-  const dbSheet = getDBSheet(); 
+  const dbSheet = getSheet(FOOD_DATABASE_SHEET_NAME); 
   
   dbSheet.clear();
   dbSheet.appendRow(["Food Item", "Count"]);
@@ -31,8 +28,8 @@ function initDBSheet() {
 }
 
 function writeItemToDBSheet(item) {
-  const dbSheet = getDBSheet();
-  const values = dbSheet.getDataRange().getValues(); // Get all data
+  const dbSheet = getSheet(FOOD_DATABASE_SHEET_NAME);
+  const values = dbSheet.getDataRange().getValues();
 
   const itemLower = item.trim().toLowerCase(); // Normalize input
   const headerOffset = 1; // Skip header row
@@ -57,15 +54,14 @@ function writeItemToDBSheet(item) {
 
   dbSheet.getRange(newRow, 1, 1, 2).setValues([[itemLower, 1]]);
 
-  Logger.log(`Item added: ${item}`);
+  // Logger.log(`Item added: ${item}`);
 }
 
 function updateDBSheet() {
-  const foodSheet = getFoodSheet();
+  const foodSheet = getSheet(FOOD_SHEET_NAME);
 
-  // Define the range (C4:I7) → 7 days (columns) × 4 meals (rows)
-  const range = foodSheet.getRange(4, 3, 4, 7); // (startRow, startCol, numRows, numCols)
-  const meals = range.getValues(); // Get values as a 2D array
+  const range = foodSheet.getRange(START_CELL_ROW, START_CELL_COL, NUM_MEALS, NUM_DAYS);
+  const meals = range.getValues(); 
 
   let foodstuffs = []
 
@@ -76,12 +72,14 @@ function updateDBSheet() {
     });
   });
 
-  Logger.log(`FoodStuffs`);
-  Logger.log(foodstuffs);
-
+  Logger.log(`FoodStuffs: [${foodstuffs}]`);
+ 
   foodstuffs.forEach(item => writeItemToDBSheet(item));
+
   Logger.log(`DB updated`);
 }
 
-initDBSheet(); 
-// updateDBSheet();
+function main() {
+  initDBSheet(); 
+  // updateDBSheet();
+}
