@@ -1,0 +1,90 @@
+/*
+   Thunderbird UI Customization - Improved Readability
+
+   Reason for changes:
+   - Default Thunderbird styling made it hard to distinguish between read, unread, and selected emails.
+   - This customization improves visibility by adjusting background colors and text styles.
+
+   Key Changes:
+   - Increased email row height for better spacing (--mail-height).
+   - Defined custom colors for unread emails, selection, and hover effects.
+   - Made unread email senders bold and adjusted subject text color.
+   - Improved contrast for selected and hovered emails.
+   - Modified toolbar and button colors for better UI consistency.
+   - Hid unnecessary elements like the "read status" icon.
+
+   Backup Reminder:
+   - Go to Help > More Troubleshooting Information.
+   - Scroll down to Profile Folder and click Open Folder.
+   - Open chrome folder
+*/
+
+:root {
+    --mail-height: 60px;
+
+    --color-card: #3C6F9B;
+    --color-card-hover: #203d55;
+    --color-unread-sender: #f5f5f5;
+    --color-unread-subject: #f5f5f5;
+    --color-card-selected: #3c9b68;
+    --color-button: #9b3c6f;
+}
+
+#folderPaneWriteMessage {
+    background-color: var(--color-button) !important;
+}
+
+.toolbarbutton-1 {
+    background-color: var(--color-button) !important;
+}
+
+.unread-count {
+    background-color: var(--color-card) !important;
+    color: var(--color-unread-sender) !important;   
+}
+
+div.tab-content[selected] {
+    background-color: var(--color-card) !important;
+}
+
+div.tab-content:not([selected]) {
+    background-color: var(--color-card-hover) !important;
+}
+
+#threadPaneHeaderBar {
+    background-color: var(--color-card) !important;  
+}
+
+[id^="threadTree-row"] {
+    height: var(--mail-height) !important;
+}
+
+#threadTree tbody [data-properties~="unread"] .card-container {
+    background-color: var(--color-card) !important; 
+}
+
+#threadTree tbody :not([aria-selected]) .card-container:hover {
+    background-color: var(--color-card-hover) !important; 
+}
+
+#threadTree tbody [aria-selected="true"] .card-container {
+    background-color: var(--color-card-selected) !important; 
+}
+
+#threadTree tbody [data-properties~="unread"] span.sender {
+    font-weight: Bold !important;
+    color: var(--color-unread-sender) !important; 
+} 
+
+#threadTree tbody [data-properties~="unread"] span.subject {
+    font-weight: normal !important;
+    color: var(--color-unread-subject) !important; 
+} 
+
+.thread-card-last-row {
+    display: none !important; 
+}
+
+.read-status {
+    visibility: hidden;
+}
