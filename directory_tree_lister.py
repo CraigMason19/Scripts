@@ -1,15 +1,19 @@
-from pathlib import Path
-
 """
-This script generates a tree-like representation of the directory structure 
-for the folder in which it is run. It recursively lists files and subfolders, 
-using indentation and tree characters for readability.
+Generate a tree-like representation of the current directory.
 
-Designed for quickly creating a text-based directory overview, this script 
-makes it easy to share or analyze folder structures. Users can specify files 
-and folders to ignore.
+This script recursively lists files and subfolders using indentation and 
+tree-style characters for readability. It is useful for quickly creating a 
+text-based overview of a directory structure.
 
-NOTE: Ignore list entries are case-sensitive.
+The `IGNORE_LIST` (case-sensitive) can be used to specify files and folders
+to ignore.
+
+Options:
+    --display
+        Display the directory tree as it is being constructed.
+
+Example:
+    python directory_tree_lister.py --display
 
 Example Output:
 
@@ -27,13 +31,26 @@ Web
 ├── workspace.code-workspace
 """
 
+import argparse
+
+from pathlib import Path
+
+# Constants
 PATH = Path(__file__).parent
-OUTPUT_FILENAME = PATH / (Path(__file__).stem + "_output.txt")
+OUTPUT_FILENAME = "dtl_output.txt"
+IGNORE_LIST = [
+	Path(__file__).name, 
+    OUTPUT_FILENAME,
+    ".git", 
+	"__pycache__"
+]
 
-SAVE_AS_FILE = True
-IGNORE_LIST = [Path(__file__).name, OUTPUT_FILENAME.name,
-            ".git", "__pycache__"]
+# CLI arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("--display", action="store_true")
+args = parser.parse_args()
 
+# Local
 tree_structure = [PATH.name]
 
 def build_directory_structure(dir_path, indent=0):
@@ -43,18 +60,25 @@ def build_directory_structure(dir_path, indent=0):
             continue  
         
         prefix = "│   " * indent + "├── "
-        tree_structure.append(prefix + item.name)
+        name = prefix + item.name
+
+        tree_structure.append(name)
+
+        if args.display:
+            print(name)
         
         if item.is_dir():
             build_directory_structure(item, indent + 1)
 
-if __name__ == "__main__":
-    build_directory_structure(PATH)
 
-    for line in tree_structure:
-        print(line)
+if __name__ == "__main__":
+    print(f"Creating directory tree for '{PATH.resolve()}'...\n")
+
+    if args.display:
+        print(PATH.name)
+
+    build_directory_structure(PATH)
     
-    if SAVE_AS_FILE:
-        with open(OUTPUT_FILENAME, "w", encoding="utf-8") as f:
-            f.write("\n".join(tree_structure))
-            print(f"Saved output to: {OUTPUT_FILENAME}")
+    with open(OUTPUT_FILENAME, "w", encoding="utf-8") as f:
+        f.write("\n".join(tree_structure))
+        print(f"\nSaved output to: {(PATH / OUTPUT_FILENAME).resolve()}")
