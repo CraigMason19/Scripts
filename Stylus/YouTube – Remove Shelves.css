@@ -1,0 +1,42 @@
+/* 
+    YouTube – Remove Shelves.css
+    
+    Styles script excerpts to improve Youtube's UI. Especially as I REALLY dislike
+    the extra shelves on my subscription page when I just want to see my
+    subscriptions!!!
+
+    urls starting with https://www.youtube.com
+*/
+
+
+/* ==UserStyle==
+@name        YouTube – Remove Shelves
+@namespace   user
+==/UserStyle== */
+
+@-moz-document url-prefix("https://www.youtube.com/feed/subscriptions") {
+}
+
+/* 
+    Hide ALL 'rich sections' or 'shelves' (Latest + Most relevant + Shorts) But only on subscription page
+*/
+ytd-browse[page-subtype="subscriptions"] ytd-rich-section-renderer {
+    display: none !important;
+}
+
+
+/* 
+    Hide ALL 'rich sections' or 'shelves' (Latest + Most relevant + Shorts) site-wide
+*/
+ytd-browse ytd-rich-section-renderer {
+    display: none !important;
+}
+
+
+/* 
+    Hide ALL Shorts 'rich sections' or 'shelves' site-wide
+*/
+ytd-rich-shelf-renderer[is-shorts] #dismissible {
+    display: none !important;
+}
+
