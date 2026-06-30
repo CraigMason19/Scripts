@@ -24,10 +24,13 @@
     --thread-card-column-gap: 5px;
 
     --color-button: #9b3c6f;
+    --color-card-flagged: #F7E1C5;
     --color-card-hover: #203d55;
     --color-card-selected: #3c9b68;
     --color-card: #3C6F9B;
-    --color-read-sender: lightgray;
+    --color-flagged-sender: gray;
+    --color-flagged-subject: gray;
+    --color-read-sender: gray;
     --color-subject: lightgray;
     --color-unread-sender: white;
 
@@ -70,24 +73,48 @@ div.tab-content:not([selected]) {
     height: var(--mail-height) !important;
 }
 
+/* 
+    Email card background colours
+*/
 #threadTree tbody [data-properties~="unread"] .card-container {
     background-color: var(--color-card) !important; 
 }
 
-#threadTree tbody [data-properties~="read"] span.sender {
-    color: var(--color-read-sender) !important;
+#threadTree tbody [data-properties~="flagged"] .card-container {
+    background-color: var(--color-card-flagged) !important;
 }
 
-#threadTree tbody [data-properties~="unread"] span.sender {
-    color: var(--color-unread-sender) !important;
+#threadTree tbody [aria-selected="true"] .card-container {
+    background-color: var(--color-card-selected) !important; 
 }
 
 #threadTree tbody :not([aria-selected]) .card-container:hover {
     background-color: var(--color-card-hover) !important; 
 }
 
-#threadTree tbody [aria-selected="true"] .card-container {
-    background-color: var(--color-card-selected) !important; 
+/* 
+    Sender read / unread
+*/
+#threadTree tbody [data-properties~="read"] span.sender,
+#threadTree tbody [data-properties~="read"] span.date {
+    color: var(--color-read-sender) !important;
+}
+
+#threadTree tbody [data-properties~="unread"] span.sender,
+#threadTree tbody [data-properties~="unread"] span.date {
+    color: var(--color-unread-sender) !important;
+}
+
+#threadTree tbody [data-properties~="flagged"] span.sender,
+#threadTree tbody [data-properties~="flagged"] span.date {
+    color: var(--color-flagged-sender) !important;
+}
+
+/* 
+    subject read / unread / flagged
+*/
+#threadTree tbody [data-properties~="flagged"] span.subject {
+    color: var(--color-flagged-subject) !important;
 }
 
 /*  The actual Email Card  */
