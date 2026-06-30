@@ -28,10 +28,9 @@
     --color-card-hover: #203d55;
     --color-card-selected: #3c9b68;
     --color-card: #3C6F9B;
-    --color-flagged-sender: gray;
-    --color-flagged-subject: gray;
+    --color-flagged: gray;
     --color-read-sender: gray;
-    --color-subject: lightgray;
+    --color-subject: #FAA965;
     --color-unread-sender: white;
 
     --font-size-card-sender: 1.3rem;
@@ -107,14 +106,14 @@ div.tab-content:not([selected]) {
 
 #threadTree tbody [data-properties~="flagged"] span.sender,
 #threadTree tbody [data-properties~="flagged"] span.date {
-    color: var(--color-flagged-sender) !important;
+    color: var(--color-flagged) !important;
 }
 
 /* 
     subject read / unread / flagged
 */
-#threadTree tbody [data-properties~="flagged"] span.subject {
-    color: var(--color-flagged-subject) !important;
+#threadTree tbody span.subject {
+    color: var(--color-subject) !important;
 }
 
 /*  The actual Email Card  */
