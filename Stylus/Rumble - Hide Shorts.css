@@ -1,0 +1,13 @@
+/* ==UserStyle==
+@name           Rumble - Hide Shorts
+@namespace      user
+@version        1.0.0
+@description    Hides all shorts on the subscriion / 'My Feed' page
+@author         Me
+==/UserStyle== */
+
+@-moz-document domain("rumble.com") {
+    rum-shorts-row {
+        display: none !important;
+    }
+}
